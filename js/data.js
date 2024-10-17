@@ -27,16 +27,16 @@ const generateAds = () => {
     ];
     const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
     const TIMES = ['12:00', '13:00', '14:00'];
-    const ALL_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-    const ALL_PHOTOS = [
+    const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+    const PHOTOS = [
       'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
       'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
       'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
     ];
     const lat = getRandomFloat(35.65, 35.7, 5);
     const lng = getRandomFloat(139.7, 139.8, 5);
-    const features = [...ALL_FEATURES].sort(() => 0.5 - Math.random()).slice(0, getRandomInteger(0, ALL_FEATURES.length));
-    const photos = [...ALL_PHOTOS].sort(() => 0.5 - Math.random()).slice(0, getRandomInteger(1, ALL_PHOTOS.length));
+    const features = [...FEATURES].sort(() => 0.5 - Math.random()).slice(0, getRandomInteger(0, FEATURES.length));
+    const photos = [...PHOTOS].sort(() => 0.5 - Math.random()).slice(0, getRandomInteger(1, PHOTOS.length));
     return {
       title: getRandomElement(TITLES),
       description: getRandomElement(DESCRIPTIONS),
