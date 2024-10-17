@@ -64,7 +64,7 @@ const generateAds = () => {
     const usedAvatars = new Set();
     return Array.from({ length: count }, () => generateAd(usedAvatars));
   };
-  generateAdArray(10); // Генерируем массив из 10 рекламных объектов
+  return generateAdArray(10); // Генерируем массив из 10 рекламных объектов
 };
 
 export { generateAds };
