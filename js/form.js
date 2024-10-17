@@ -6,9 +6,10 @@ const toggleFormElements = (form, isDisabled) => {
     return element.disabled;
   });
 };
-const updateFormsAccessibility  = (isDisabled) => {
+const updateFormsAccessibility = (isDisabled) => {
   [adFormNode, mapFiltersNode].forEach((form) => {
-    form.classList.toggle(`${form.className}--disabled`, isDisabled);
+    const baseClassName = form.classList[0];
+    form.classList.toggle(`${baseClassName}--disabled`, isDisabled);
     toggleFormElements(form, isDisabled);
   });
   const sliderNode = document.querySelector('.ad-form__slider');
@@ -16,7 +17,7 @@ const updateFormsAccessibility  = (isDisabled) => {
     sliderNode.toggleAttribute('disabled', isDisabled);
   }
 };
-const disablePageInteraction  = () => updateFormsAccessibility (true);
-/* const enablePageInteraction  = () => updateFormsAccessibility (false); */
+const disablePageInteraction = () => updateFormsAccessibility(true);
+const enablePageInteraction = () => updateFormsAccessibility(false);
 
-export { disablePageInteraction };
+export { disablePageInteraction, enablePageInteraction };
