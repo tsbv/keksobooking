@@ -265,6 +265,12 @@ fieldset {
   width: 100%;
 }
 
+.ad-form__error {
+  padding: 3px 0 0;
+  display: inline-block;
+  color: #cc0000;
+}
+
 .ad-form--disabled {
   opacity: 0.3;
   pointer-events: none;
