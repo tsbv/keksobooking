@@ -56,7 +56,7 @@ const setupFormValidation = () => {
       formNode.submit();
     }
   });
-  const roomNumberSelect = formNode.querySelector('#room_number');
+  const roomNumberSelect = formNode.querySelector('#room_number'); // Валидация полей количество комнат и количество мест
   const capacitySelect = formNode.querySelector('#capacity');
   const roomGuestLimitations = {
     '1': {
