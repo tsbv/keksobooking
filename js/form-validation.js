@@ -56,6 +56,35 @@ const setupFormValidation = () => {
       formNode.submit();
     }
   });
+  const roomNumberSelect = formNode.querySelector('#room_number');
+  const capacitySelect = formNode.querySelector('#capacity');
+  const roomGuestLimitations = {
+    '1': {
+      allowedGuests: ['1']
+    },
+    '2': {
+      allowedGuests: ['1', '2']
+    },
+    '3': {
+      allowedGuests: ['1', '2', '3']
+    },
+    '100': {
+      allowedGuests: ['0']
+    }
+  };
+  const capacityMessages = {
+    '1': '1 комната только для 1 гостя.',
+    '2': '2 комнаты только для 1-2 гостей.',
+    '3': '3 комнаты для 1-3 гостей.',
+    '100': '100 номеров не для гостей.',
+    'default': 'Выберите количество комнат.'
+  };
+  pristine.addValidator(
+    capacitySelect,
+    (capacity) => roomGuestLimitations[roomNumberSelect.value].allowedGuests.includes(capacity),
+    () => capacityMessages[roomNumberSelect.value] || capacityMessages.default
+  );
+  roomNumberSelect.addEventListener('change', () => pristine.validate(capacitySelect));
 };
 
 export { setupFormValidation };
