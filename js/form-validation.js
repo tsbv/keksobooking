@@ -18,7 +18,19 @@ const setupFormValidation = () => {
     errorTextTag: 'span',
     errorTextClass: 'ad-form__error'
   });
-  const titleInput = formNode.querySelector('#title'); // Валидация заголовка
+  const timeInSelectNode = formNode.querySelector('#timein'); // Логика синхронизации времени заезда и выезда
+  const timeOutSelectNode = formNode.querySelector('#timeout');
+  const syncTimes = (sourceSelect, targetSelect) => {
+    const selectedIndex = sourceSelect.selectedIndex;
+    targetSelect.selectedIndex = selectedIndex;
+  };
+  timeInSelectNode.addEventListener('change', () => {
+    syncTimes(timeInSelectNode, timeOutSelectNode);
+  });
+  timeOutSelectNode.addEventListener('change', () => {
+    syncTimes(timeOutSelectNode, timeInSelectNode);
+  });
+  const titleInputNode = formNode.querySelector('#title');
   const validateTitle = (value) => {
     if (value.trim() === '') {
       return false;
@@ -32,50 +44,43 @@ const setupFormValidation = () => {
     return `От ${MIN_TITLE_LENGTH} до ${MAX_TITLE_LENGTH} символов.`;
   };
   pristine.addValidator(
-    titleInput,
+    titleInputNode,
     validateTitle,
     getTitleErrorMessage
   );
-  const priceInput = formNode.querySelector('#price'); // Валидация цены
-  const typeSelect = formNode.querySelector('#type');
+  const priceInputNode = formNode.querySelector('#price'); // Валидация цены
+  const typeSelectNode = formNode.querySelector('#type');
   const validatePrice = (value) => {
     if (value.trim() === '') {
       return false;
     }
     const price = parseFloat(value);
-    const minPrice = MinPriceByType[typeSelect.value];
+    const minPrice = MinPriceByType[typeSelectNode.value];
     return !isNaN(price) && price >= minPrice && price <= MAX_PRICE;
   };
   const getPriceErrorMessage = (value) => {
     if (value.trim() === '') {
       return 'Введите цену за ночь.';
     }
-    const minPrice = MinPriceByType[typeSelect.value];
+    const minPrice = MinPriceByType[typeSelectNode.value];
     return `От ${minPrice} до ${MAX_PRICE} рублей.`;
   };
   pristine.addValidator(
-    priceInput,
+    priceInputNode,
     validatePrice,
     getPriceErrorMessage
   );
   const updatePriceAttributes = () => {
-    const minPrice = MinPriceByType[typeSelect.value];
-    priceInput.placeholder = minPrice.toString();
-    priceInput.min = minPrice;
-    if (priceInput.value.trim() !== '') { // Проверка только в том случае, если во входных данных есть значение
-      pristine.validate(priceInput);
+    const minPrice = MinPriceByType[typeSelectNode.value];
+    priceInputNode.placeholder = minPrice.toString();
+    priceInputNode.min = minPrice;
+    if (priceInputNode.value.trim() !== '') { // Проверка только в том случае, если во входных данных есть значение
+      pristine.validate(priceInputNode);
     }
   };
-  typeSelect.addEventListener('change', updatePriceAttributes);
+  typeSelectNode.addEventListener('change', updatePriceAttributes);
   updatePriceAttributes(); // Первоначальная настройка атрибутов цен
-  formNode.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
-      formNode.submit();
-    }
-  });
-  const roomNumberSelect = formNode.querySelector('#room_number'); // Валидация полей количество комнат и количество мест
+  const roomNumberSelect = formNode.querySelector('#room_number');
   const capacitySelect = formNode.querySelector('#capacity');
   const roomGuestLimitations = {
     '1': {
@@ -104,6 +109,13 @@ const setupFormValidation = () => {
     () => capacityMessages[roomNumberSelect.value] || capacityMessages.default
   );
   roomNumberSelect.addEventListener('change', () => pristine.validate(capacitySelect));
+  formNode.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      formNode.submit();
+    }
+  });
 };
 
 export { setupFormValidation };
