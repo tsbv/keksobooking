@@ -1,8 +1,14 @@
 const setupFormValidation = () => {
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
-  const MIN_PRICE = 1;
   const MAX_PRICE = 100000;
+  const MinPriceByType = {
+    bungalow: 0,
+    flat: 1000,
+    hotel: 3000,
+    house: 5000,
+    palace: 10000
+  };
   const formNode = document.querySelector('.ad-form');
   const pristine = new Pristine(formNode, {
     classTo: 'ad-form__element',
@@ -31,24 +37,37 @@ const setupFormValidation = () => {
     getTitleErrorMessage
   );
   const priceInput = formNode.querySelector('#price'); // Валидация цены
+  const typeSelect = formNode.querySelector('#type');
   const validatePrice = (value) => {
     if (value.trim() === '') {
       return false;
     }
     const price = parseFloat(value);
-    return !isNaN(price) && price > MIN_PRICE && price <= MAX_PRICE;
+    const minPrice = MinPriceByType[typeSelect.value];
+    return !isNaN(price) && price >= minPrice && price <= MAX_PRICE;
   };
   const getPriceErrorMessage = (value) => {
     if (value.trim() === '') {
       return 'Введите цену за ночь.';
     }
-    return `От ${MIN_PRICE} до ${MAX_PRICE} рублей.`;
+    const minPrice = MinPriceByType[typeSelect.value];
+    return `От ${minPrice} до ${MAX_PRICE} рублей.`;
   };
   pristine.addValidator(
     priceInput,
     validatePrice,
     getPriceErrorMessage
   );
+  const updatePriceAttributes = () => {
+    const minPrice = MinPriceByType[typeSelect.value];
+    priceInput.placeholder = minPrice.toString();
+    priceInput.min = minPrice;
+    if (priceInput.value.trim() !== '') { // Проверка только в том случае, если во входных данных есть значение
+      pristine.validate(priceInput);
+    }
+  };
+  typeSelect.addEventListener('change', updatePriceAttributes);
+  updatePriceAttributes(); // Первоначальная настройка атрибутов цен
   formNode.addEventListener('submit', (event) => {
     event.preventDefault();
     const isValid = pristine.validate();
