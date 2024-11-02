@@ -10,6 +10,13 @@ const setupFormValidation = () => {
     palace: 10000
   };
   const formNode = document.querySelector('.ad-form');
+  const timeInSelectNode = formNode.querySelector('#timein');
+  const timeOutSelectNode = formNode.querySelector('#timeout');
+  const titleInputNode = formNode.querySelector('#title');
+  const priceInputNode = formNode.querySelector('#price');
+  const typeSelectNode = formNode.querySelector('#type');
+  const roomNumberSelect = formNode.querySelector('#room_number');
+  const capacitySelect = formNode.querySelector('#capacity');
   const pristine = new Pristine(formNode, {
     classTo: 'ad-form__element',
     errorClass: 'ad-form__element--invalid',
@@ -18,9 +25,7 @@ const setupFormValidation = () => {
     errorTextTag: 'span',
     errorTextClass: 'ad-form__error'
   });
-  const timeInSelectNode = formNode.querySelector('#timein'); // Логика синхронизации времени заезда и выезда
-  const timeOutSelectNode = formNode.querySelector('#timeout');
-  const syncTimes = (sourceSelect, targetSelect) => {
+  const syncTimes = (sourceSelect, targetSelect) => { // Логика синхронизации времени заезда и выезда
     const selectedIndex = sourceSelect.selectedIndex;
     targetSelect.selectedIndex = selectedIndex;
   };
@@ -30,8 +35,7 @@ const setupFormValidation = () => {
   timeOutSelectNode.addEventListener('change', () => {
     syncTimes(timeOutSelectNode, timeInSelectNode);
   });
-  const titleInputNode = formNode.querySelector('#title');
-  const validateTitle = (value) => {
+  const validateTitle = (value) => { // Валидация заголовка
     if (value.trim() === '') {
       return false;
     }
@@ -48,9 +52,7 @@ const setupFormValidation = () => {
     validateTitle,
     getTitleErrorMessage
   );
-  const priceInputNode = formNode.querySelector('#price'); // Валидация цены
-  const typeSelectNode = formNode.querySelector('#type');
-  const validatePrice = (value) => {
+  const validatePrice = (value) => { // Валидация цены
     if (value.trim() === '') {
       return false;
     }
@@ -80,9 +82,7 @@ const setupFormValidation = () => {
   };
   typeSelectNode.addEventListener('change', updatePriceAttributes);
   updatePriceAttributes(); // Первоначальная настройка атрибутов цен
-  const roomNumberSelect = formNode.querySelector('#room_number');
-  const capacitySelect = formNode.querySelector('#capacity');
-  const roomGuestLimitations = {
+  const roomGuestLimitations = { // Валидация количества комнат и гостей
     '1': {
       allowedGuests: ['1']
     },
@@ -109,7 +109,7 @@ const setupFormValidation = () => {
     () => capacityMessages[roomNumberSelect.value] || capacityMessages.default
   );
   roomNumberSelect.addEventListener('change', () => pristine.validate(capacitySelect));
-  formNode.addEventListener('submit', (event) => {
+  formNode.addEventListener('submit', (event) => { // Отправка формы
     event.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
