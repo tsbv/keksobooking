@@ -17,6 +17,10 @@ const initRangeSlider = () => {
     const value = Number(sliderNode.noUiSlider.get());
     sliderValueNode.value = value > 0 ? value : '';
   });
+  sliderNode.noUiSlider.on('slide', () => { // Проверка активируется только тогда, когда пользователь взаимодействует с ползунком
+    const event = new Event('input', { bubbles: true }); // Позволяет событию всплывать для проверки формы
+    sliderValueNode.dispatchEvent(event);
+  });
 };
 
 export { initRangeSlider };
