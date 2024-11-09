@@ -70,7 +70,7 @@ const generateAds = () => {
     }
     return ads;
   };
-  return generateAdArray(10);
+  return generateAdArray(10); // Генерируем массив из 10 рекламных объектов
 };
 
 export { generateAds };

@@ -6,5 +6,5 @@ import { initRangeSlider } from './range-slider.js';
 generateAds(); // Генерация временных данных
 disablePageInteraction(); // Перевод страницы в неактивное состояние
 enablePageInteraction(); // Включаем страницу (после загрузки карты):
-setupFormValidation();
-initRangeSlider();
+setupFormValidation(); // Настройка валидации формы
+initRangeSlider(); // Ползунок цены
