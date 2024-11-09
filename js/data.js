@@ -1,4 +1,5 @@
 import { getRandomInteger, getRandomFloat } from './util.js';
+import { renderCard, createCardElement } from './ad-generator.js';
 
 const generateAds = () => {
   const getRandomElement = (array) => array[Math.floor(Math.random() * array.length)];
@@ -62,9 +63,14 @@ const generateAds = () => {
   };
   const generateAdArray = (count) => {
     const usedAvatars = new Set();
-    return Array.from({ length: count }, () => generateAd(usedAvatars));
+    const ads = Array.from({ length: count }, () => generateAd(usedAvatars));
+    if (ads.length) {
+      renderCard(ads[0]);
+      ads.forEach(createCardElement);
+    }
+    return ads;
   };
-  return generateAdArray(10); // Генерируем массив из 10 рекламных объектов
+  return generateAdArray(10);
 };
 
 export { generateAds };
