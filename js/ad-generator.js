@@ -55,7 +55,5 @@ const createCardElement = (ad) => { // Создаем элемент карто�
   });
   return cardElement;
 };
-const renderCard = (ad) => { // Отрисовываем карточку объявления на странице
-  document.querySelector('#map-canvas').appendChild(createCardElement(ad));
-};
-export { createCardElement, renderCard };
+
+export { createCardElement };
