@@ -127,7 +127,7 @@ const setupFormValidation = () => {
       formNode.submit();
     }
   });
-  setInitialAddress(); // Установить начальный адрес при загрузке страницы
+  setInitialAddress(); // Установка начального адреса при загрузке страницы
   return {
     updateAddress,
     setInitialAddress
