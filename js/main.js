@@ -6,7 +6,8 @@ import { initMap } from './map.js';
 
 generateAds(); // Генерация временных данных
 disablePageInteraction(); // Перевод страницы в неактивное состояние
-enablePageInteraction(); // Включаем страницу (после загрузки карты):
-setupFormValidation(); // Настройка валидации формы
-initRangeSlider(); // Ползунок цены
-initMap(); // Инициализация карты
+initMap(() => { // Инициализация карты
+  enablePageInteraction(); // Активное состояние после загрузки карты
+  setupFormValidation(); // Настройка валидации формы
+  initRangeSlider(); // Ползунок цены
+});
