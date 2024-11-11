@@ -1,4 +1,6 @@
-const TOKYO_COORDINATES = {
+import { setupFormValidation } from './form-validation.js';
+
+const INITIAL_COORDINATES = {
   lat: 35.68235,
   lng: 139.75232
 };
@@ -8,7 +10,7 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 });
 const initMap = (onMapInitialized) => {
-  const map = L.map('map-canvas').setView([TOKYO_COORDINATES.lat, TOKYO_COORDINATES.lng], 10);
+  const map = L.map('map-canvas').setView([INITIAL_COORDINATES.lat, INITIAL_COORDINATES.lng], 10);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -16,13 +18,17 @@ const initMap = (onMapInitialized) => {
     }
   ).addTo(map).on('load', onMapInitialized);
   const mainPinMarker = L.marker(
-    [TOKYO_COORDINATES.lat, TOKYO_COORDINATES.lng],
+    [INITIAL_COORDINATES.lat, INITIAL_COORDINATES.lng],
     {
       icon: mainPinIcon,
       draggable: true,
     },
   );
+  const formValidation = setupFormValidation();
+  mainPinMarker.on('drag', () => {
+    formValidation.updateAddress(mainPinMarker);
+  });
   mainPinMarker.addTo(map);
 };
 
-export { initMap };
+export { initMap, INITIAL_COORDINATES };

@@ -1,3 +1,5 @@
+import { INITIAL_COORDINATES } from './map.js';
+
 const setupFormValidation = () => {
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
@@ -15,8 +17,17 @@ const setupFormValidation = () => {
   const titleInputNode = formNode.querySelector('#title');
   const priceInputNode = formNode.querySelector('#price');
   const typeSelectNode = formNode.querySelector('#type');
-  const roomNumberSelect = formNode.querySelector('#room_number');
-  const capacitySelect = formNode.querySelector('#capacity');
+  const roomNumberSelectNode = formNode.querySelector('#room_number');
+  const capacitySelectNode = formNode.querySelector('#capacity');
+  const addressInputNode = formNode.querySelector('#address');
+  const setInitialAddress = () => { // Начальные координаты в поле адреса
+    const { lat, lng } = INITIAL_COORDINATES;
+    addressInputNode.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  };
+  const updateAddress = (marker) => { // Обновление адреса при перетаскивании маркера
+    const position = marker.getLatLng();
+    addressInputNode.value = `${position.lat.toFixed(5)}, ${position.lng.toFixed(5)}`;
+  };
   const pristine = new Pristine(formNode, {
     classTo: 'ad-form__element',
     errorClass: 'ad-form__element--invalid',
@@ -104,11 +115,11 @@ const setupFormValidation = () => {
     'default': 'Выберите количество комнат.'
   };
   pristine.addValidator(
-    capacitySelect,
-    (capacity) => roomGuestLimitations[roomNumberSelect.value].allowedGuests.includes(capacity),
-    () => capacityMessages[roomNumberSelect.value] || capacityMessages.default
+    capacitySelectNode,
+    (capacity) => roomGuestLimitations[roomNumberSelectNode.value].allowedGuests.includes(capacity),
+    () => capacityMessages[roomNumberSelectNode.value] || capacityMessages.default
   );
-  roomNumberSelect.addEventListener('change', () => pristine.validate(capacitySelect));
+  roomNumberSelectNode.addEventListener('change', () => pristine.validate(capacitySelectNode));
   formNode.addEventListener('submit', (event) => { // Отправка формы
     event.preventDefault();
     const isValid = pristine.validate();
@@ -116,6 +127,11 @@ const setupFormValidation = () => {
       formNode.submit();
     }
   });
+  setInitialAddress(); // Установить начальный адрес при загрузке страницы
+  return {
+    updateAddress,
+    setInitialAddress
+  };
 };
 
 export { setupFormValidation };
