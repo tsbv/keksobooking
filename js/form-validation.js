@@ -25,7 +25,7 @@ const setupFormValidation = () => {
     errorTextTag: 'span',
     errorTextClass: 'ad-form__error'
   });
-  const syncTimes = (sourceSelect, targetSelect) => { // Логика синхронизации времени заезда и выезда
+  const syncTimes = (sourceSelect, targetSelect) => { // Синхронизация времени заезда и выезда
     const selectedIndex = sourceSelect.selectedIndex;
     targetSelect.selectedIndex = selectedIndex;
   };
