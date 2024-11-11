@@ -86,7 +86,6 @@ const setupFormValidation = () => {
   const updatePriceAttributes = () => {
     const minPrice = MinPriceByType[typeSelectNode.value];
     priceInputNode.placeholder = minPrice.toString();
-    priceInputNode.min = minPrice;
     if (priceInputNode.value.trim() !== '') { // Проверка только в том случае, если во входных данных есть значение
       pristine.validate(priceInputNode);
     }
