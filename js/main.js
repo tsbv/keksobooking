@@ -11,5 +11,5 @@ initMap(() => { // Инициализация карты
   enablePageInteraction(); // Активное состояние после загрузки карты
   setupFormValidation(); // Настройка валидации формы
   initRangeSlider(); // Ползунок цены
-  initializeImageUploads();
+  initializeImageUploads(); // Инициализация загрузки изображений
 });
