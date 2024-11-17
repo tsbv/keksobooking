@@ -10,20 +10,16 @@ const getRandomInteger = (from, to) => {
   return Math.floor(Math.random() * (to - from + 1)) + from;
 };
 const getRandomFloat = (from, to, decimalPlaces) => {
-  if (![from, to, decimalPlaces].every((arg) => typeof arg === 'number')) { // Проверка типов входных данных
+  if (![from, to, decimalPlaces].every((arg) => typeof arg === 'number')) { // Проверяем, что все аргументы являются числами
     throw new TypeError('Все аргументы должны быть числами.');
   }
-  if (from < 0 || to < 0) { // Убеждаемся, что значения неотрицательны
-    throw new RangeError('Значения «от» и «до» должны быть неотрицательными.');
+  if (from < 0 || to < 0 || decimalPlaces < 0 || !Number.isInteger(decimalPlaces)) { // Проверяем, являются ли какие-либо значения отрицательными или decimalPlaces не является целым числом
+    throw new RangeError('Значения должны быть неотрицательными, а десятичные знаки должны быть целыми числами.');
   }
-  if (decimalPlaces < 0 || !Number.isInteger(decimalPlaces)) { // Убеждаемся, что десятичные знаки являются неотрицательным целым числом.
-    throw new RangeError('Десятичные знаки должны быть неотрицательными целыми числами.');
-  }
-  if (to <= from) { // Обработка случая, когда «to» меньше или равно «from»
+  if (to <= from) { // Если «до» меньше или равно «от», вернуть значение «от», округленное до указанного количества десятичных знаков
     return Number(from.toFixed(decimalPlaces));
   }
-  const randomFloat = Math.random() * (to - from) + from; // Генерация числа с плавающей точкой
-  return Number(randomFloat.toFixed(decimalPlaces)); // Округляем до указанных десятичных знаков
+  return Number((Math.random() * (to - from) + from).toFixed(decimalPlaces)); // Генерируем случайное число с плавающей точкой между «от» и «до», округляем до указанного количества знаков после запятой
 };
 
 export { getRandomInteger, getRandomFloat };
